@@ -1,7 +1,7 @@
 {
   "name": "dwaar",
   "displayName": "Dwaar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings.",
   "author": {
     "name": "Dwaar",

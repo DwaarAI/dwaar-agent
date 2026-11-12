@@ -1,7 +1,7 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/plugin.schema.json",
   "name": "dwaar",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings.",
   "author": { "name": "Dwaar", "url": "https://dwaar.ai" },
   "homepage": "https://docs.dwaar.ai/console/getting-started/coding-agents",
