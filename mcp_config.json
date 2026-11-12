@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "dwaar": { "serverUrl": "https://console-dev.dwaar.ai/mcp" }
+  }
+}

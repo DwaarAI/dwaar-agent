@@ -1,0 +1,43 @@
+{
+  "name": "dwaar",
+  "version": "0.1.0",
+  "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings.",
+  "author": {
+    "name": "Dwaar",
+    "url": "https://dwaar.ai"
+  },
+  "homepage": "https://docs.dwaar.ai/console/getting-started/coding-agents",
+  "repository": "https://github.com/DwaarAI/dwaar-agent",
+  "license": "Apache-2.0",
+  "keywords": [
+    "dwaar",
+    "security",
+    "vulnerabilities",
+    "findings",
+    "sbom",
+    "mcp"
+  ],
+  "skills": "./skills/",
+  "mcpServers": "./.mcp.json",
+  "interface": {
+    "displayName": "Dwaar",
+    "shortDescription": "Security findings from Dwaar Console",
+    "longDescription": "Read Dwaar Console's findings, resources, components and scans from chat, fix the findings of the repository you are in, and rescan to prove the fix. Signs in as you through your browser; the agent can never do more than your role allows.",
+    "developerName": "Dwaar",
+    "category": "Developer Tools",
+    "capabilities": [
+      "Interactive",
+      "Write"
+    ],
+    "websiteURL": "https://dwaar.ai",
+    "defaultPrompt": [
+      "Connect me to Dwaar",
+      "What does Dwaar know about this repository, and what should I fix first?"
+    ],
+    "brandColor": "#A13630",
+    "privacyPolicyURL": "https://dwaar.ai/privacy-policy/",
+    "termsOfServiceURL": "https://dwaar.ai/terms-of-use/",
+    "composerIcon": "./logo.png",
+    "logo": "./logo.png"
+  }
+}

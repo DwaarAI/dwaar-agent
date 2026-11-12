@@ -1,0 +1,12 @@
+{
+  "name": "dwaar",
+  "version": "0.1.0",
+  "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings.",
+  "mcpServers": {
+    "dwaar": {
+      "type": "http",
+      "url": "https://console-dev.dwaar.ai/mcp"
+    }
+  },
+  "contextFileName": "GEMINI.md"
+}

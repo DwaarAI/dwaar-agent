@@ -1,0 +1,7 @@
+{
+  "name": "dwaar",
+  "owner": { "name": "Dwaar" },
+  "plugins": [
+    { "name": "dwaar", "source": "./", "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings." }
+  ]
+}

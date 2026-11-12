@@ -1,0 +1,13 @@
+{
+  "$schema": "https://code.claude.com/schemas/marketplace.json",
+  "name": "dwaar",
+  "description": "Dwaar's plugin for coding agents.",
+  "owner": { "name": "Dwaar", "url": "https://dwaar.ai" },
+  "plugins": [
+    {
+      "name": "dwaar",
+      "source": "./",
+      "description": "Dwaar Console in your coding agent: the remote MCP server for findings, resources, components and scans, plus skills to connect, sign in and fix this repository's findings."
+    }
+  ]
+}
