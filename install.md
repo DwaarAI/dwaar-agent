@@ -4,17 +4,27 @@
 
 I want you to install Dwaar for me. Execute all the steps below; ask me once before you change my agent's configuration.
 
-OBJECTIVE: Give this coding agent the `dwaar` MCP server (`https://console-dev.dwaar.ai/mcp`) and the Dwaar skills, signed in as me.
+OBJECTIVE: Give this coding agent the `dwaar` MCP server (`https://console.stg.dwaar.ai/mcp`) and the Dwaar skills, signed in as me.
 
 DONE WHEN: the `session` tool of the `dwaar` server answers with my name and my tenant.
 
 ## TODO
 
+- [ ] Use the shared address unless I gave you a dedicated tenant's address
 - [ ] Work out which coding agent you are
 - [ ] Install the Dwaar plugin (or the MCP server alone) for that agent
 - [ ] Reload the agent so it loads the new server
 - [ ] Sign me in through the browser
 - [ ] Call `session`, then `overview`, and tell me what you found
+
+## Shared or dedicated address
+
+The addresses here are the shared ones, and the default: MCP server `https://console.stg.dwaar.ai/mcp`, console
+`https://console.stg.dwaar.ai`. A customer with a dedicated Dwaar tenant has its own console and MCP addresses, and the
+MCP server and the console can be on different domains. Use a dedicated address only if I say I have a dedicated tenant
+and give you its MCP address; never guess one, and do not ask me whether I have one. With a dedicated address, install
+the skills (`npx skills add DwaarAI/dwaar-agent`) and use the MCP-only command below with my address in place of the
+shared one: the plugin carries the shared address.
 
 ## Step 1: Install for your agent
 
@@ -23,14 +33,14 @@ support.
 
 | Agent | Plugin | MCP only |
 | --- | --- | --- |
-| Claude Code | `claude plugin marketplace add DwaarAI/dwaar-agent && claude plugin install dwaar@dwaar` | `claude mcp add --transport http dwaar https://console-dev.dwaar.ai/mcp` |
-| Codex | `codex plugin marketplace add DwaarAI/dwaar-agent && codex plugin add dwaar@dwaar` | `codex mcp add dwaar --url https://console-dev.dwaar.ai/mcp` |
-| Cursor | (team marketplace import by an admin) | `~/.cursor/mcp.json`: `{"mcpServers":{"dwaar":{"url":"https://console-dev.dwaar.ai/mcp"}}}` |
-| VS Code (Copilot) | Command Palette › **Chat: Install Plugin from Source** › `https://github.com/DwaarAI/dwaar-agent` | `code --add-mcp '{"name":"dwaar","type":"http","url":"https://console-dev.dwaar.ai/mcp"}'` |
-| Antigravity | `agy plugin install https://github.com/DwaarAI/dwaar-agent` | `~/.gemini/config/mcp_config.json`: `{"mcpServers":{"dwaar":{"serverUrl":"https://console-dev.dwaar.ai/mcp"}}}` |
-| Gemini CLI | `gemini extensions install https://github.com/DwaarAI/dwaar-agent` | `gemini mcp add --transport http -s user dwaar https://console-dev.dwaar.ai/mcp` |
-| OpenCode | `npx skills add DwaarAI/dwaar-agent` | `opencode mcp add dwaar --url https://console-dev.dwaar.ai/mcp` |
-| Other agents | `npx skills add DwaarAI/dwaar-agent` | Add `https://console-dev.dwaar.ai/mcp` as a remote Streamable HTTP MCP server with OAuth |
+| Claude Code | `claude plugin marketplace add DwaarAI/dwaar-agent && claude plugin install dwaar@dwaar` | `claude mcp add --transport http dwaar https://console.stg.dwaar.ai/mcp` |
+| Codex | `codex plugin marketplace add DwaarAI/dwaar-agent && codex plugin add dwaar@dwaar` | `codex mcp add dwaar --url https://console.stg.dwaar.ai/mcp` |
+| Cursor | (team marketplace import by an admin) | `~/.cursor/mcp.json`: `{"mcpServers":{"dwaar":{"url":"https://console.stg.dwaar.ai/mcp"}}}` |
+| VS Code (Copilot) | Command Palette › **Chat: Install Plugin from Source** › `https://github.com/DwaarAI/dwaar-agent` | `code --add-mcp '{"name":"dwaar","type":"http","url":"https://console.stg.dwaar.ai/mcp"}'` |
+| Antigravity | `agy plugin install https://github.com/DwaarAI/dwaar-agent` | `~/.gemini/config/mcp_config.json`: `{"mcpServers":{"dwaar":{"serverUrl":"https://console.stg.dwaar.ai/mcp"}}}` |
+| Gemini CLI | `gemini extensions install https://github.com/DwaarAI/dwaar-agent` | `gemini mcp add --transport http -s user dwaar https://console.stg.dwaar.ai/mcp` |
+| OpenCode | `npx skills add DwaarAI/dwaar-agent` | `opencode mcp add dwaar --url https://console.stg.dwaar.ai/mcp` |
+| Other agents | `npx skills add DwaarAI/dwaar-agent` | Add `https://console.stg.dwaar.ai/mcp` as a remote Streamable HTTP MCP server with OAuth |
 
 OpenCode and other agents need both lines: the skills and the server.
 
@@ -42,11 +52,15 @@ Most agents load a new MCP server only in a new session. Tell me to restart or r
 
 You must start sign-in with the agent's login command, or by calling any Dwaar tool:
 
-- Claude Code: `/mcp` › dwaar › Authenticate, or `claude mcp login dwaar`
+- Claude Code after the plugin install: `/mcp` › plugin:dwaar:dwaar › Authenticate, or `claude mcp login plugin:dwaar:dwaar`
+- Claude Code after the MCP-only install: `/mcp` › dwaar › Authenticate, or `claude mcp login dwaar`
 - Codex: `codex mcp login dwaar`
 - Gemini CLI: `/mcp auth dwaar`
 - OpenCode: `opencode mcp auth dwaar`
 - Cursor, VS Code, Antigravity: the browser opens when the server connects
+
+Over SSH without a local browser, add `--no-browser` to the Claude Code or Codex login command (for example
+`claude mcp login plugin:dwaar:dwaar --no-browser`): it prints a URL to open elsewhere.
 
 Tell me what each browser stop is for before it opens:
 
@@ -59,8 +73,9 @@ Never ask me for a password, token or code in chat.
 ## Step 4: Verify
 
 Call `session` and greet me by name with my tenant. Call `overview` and summarise it. If `session` says the tenant is
-empty, send me to `https://console-dev.dwaar.ai/integrations/github` and ask me to choose **Add connection**: credentials
-never go through chat.
+empty, send me to `<console>/integrations/github` and ask me to choose **Add connection**: credentials never go through
+chat. `<console>` is the console the dwaar server's instructions name ("The console is …"); without them it is
+`https://console.stg.dwaar.ai` on the shared server, and on a dedicated tenant you ask me for my console address.
 
 EXECUTE NOW: Complete the above TODO list to achieve: the `session` tool of the `dwaar` server answers with my name and my tenant.
 

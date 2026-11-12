@@ -10,23 +10,35 @@ Dwaar Console finds everything a company ships (repositories, images and package
 AI agents, vendors), scans it, and lists the problems as findings in one place, ranked with severity, EPSS and CISA KEV.
 Its MCP server lets you read findings, resources, components and scans from chat, and start rescans.
 
-- MCP server: `https://console-dev.dwaar.ai/mcp`, server name `dwaar` (Streamable HTTP, OAuth sign-in).
-- Console (`<console>` below): `https://console-dev.dwaar.ai`. If the dwaar server's instructions name another
-  console ("The console is …"), use that one.
+- MCP server: `https://console.stg.dwaar.ai/mcp`, the shared address, server name `dwaar` (Streamable HTTP, OAuth
+  sign-in). The Claude Code plugin registers it as `plugin:dwaar:dwaar`.
+- Console (`<console>` below): the console the dwaar server's instructions name ("The console is …"). Without them,
+  it is `https://console.stg.dwaar.ai` on the shared server; on a dedicated tenant, ask the user for their console
+  address. Never derive it from the MCP address: the MCP server and the console can be on different domains.
 
 Never ask the user for a password, token, OAuth code or integration credential in chat. Sign-in and connecting
 integrations happen in the browser.
+
+## 0. Shared or dedicated address
+
+Use the shared MCP address above unless the user explicitly says they have a dedicated Dwaar tenant and gives its MCP
+address. Never guess a dedicated address, and do not ask every user whether they have one. A dedicated tenant has its
+own console and MCP addresses, possibly on different domains. With a dedicated address, install the skills
+(`npx skills add DwaarAI/dwaar-agent`) and use the agent's MCP-only command from step 2 with that address in place of
+the shared one: the plugin carries the shared address.
 
 ## 1. Check the tools
 
 Look for the Dwaar tools: `session`, `search`, `overview`, `orgs`, `products`, `product`, `resources`, `resource`,
 `components`, `component`, `findings`, `finding`, `findingCounts`, `scans`, `scan`, `providers`, `discoveryJobs`,
 `connections`, and with write access `rescanResource`, `retryScan`, `cancelScan`, `syncConnection`. Your agent may show
-them with a prefix for the `dwaar` server (for example `mcp__dwaar__session`).
+them with a prefix for the server (for example `mcp__plugin_dwaar_dwaar__session` after the Claude Code plugin install,
+`mcp__dwaar__session` after an MCP-only install).
 
 - The tools are there: go to step 4.
-- The `dwaar` server is configured but needs sign-in, or a call answers 401: go to step 3.
-- No `dwaar` server: go to step 2.
+- The Dwaar server (`dwaar`, or `plugin:dwaar:dwaar` from the Claude Code plugin) is configured but needs sign-in, or a
+  call answers 401: go to step 3.
+- No Dwaar server: go to step 2.
 
 ## 2. Install
 
@@ -36,14 +48,14 @@ user wants only the server.
 
 | Agent | Plugin | MCP only |
 | --- | --- | --- |
-| Claude Code | `claude plugin marketplace add DwaarAI/dwaar-agent` then `claude plugin install dwaar@dwaar` | `claude mcp add --transport http dwaar https://console-dev.dwaar.ai/mcp` |
-| Codex | `codex plugin marketplace add DwaarAI/dwaar-agent` then `codex plugin add dwaar@dwaar` (or `/plugins`) | `codex mcp add dwaar --url https://console-dev.dwaar.ai/mcp` |
-| Cursor | A team admin imports `https://github.com/DwaarAI/dwaar-agent` (Dashboard › Plugins & MCPs › Add Marketplace › Import from Repo) | Add `{"mcpServers":{"dwaar":{"url":"https://console-dev.dwaar.ai/mcp"}}}` to `~/.cursor/mcp.json` |
-| VS Code (Copilot) | Command Palette › **Chat: Install Plugin from Source** › `https://github.com/DwaarAI/dwaar-agent` (needs `chat.plugins.enabled`) | `code --add-mcp '{"name":"dwaar","type":"http","url":"https://console-dev.dwaar.ai/mcp"}'` |
-| Antigravity | `agy plugin install https://github.com/DwaarAI/dwaar-agent` | Add `"dwaar": {"serverUrl": "https://console-dev.dwaar.ai/mcp"}` under `mcpServers` in `~/.gemini/config/mcp_config.json` |
-| Gemini CLI | `gemini extensions install https://github.com/DwaarAI/dwaar-agent` | `gemini mcp add --transport http -s user dwaar https://console-dev.dwaar.ai/mcp` |
-| OpenCode | `npx skills add DwaarAI/dwaar-agent` (skills only) | `opencode mcp add dwaar --url https://console-dev.dwaar.ai/mcp` |
-| Anything else | `npx skills add DwaarAI/dwaar-agent` (skills only) | Add `https://console-dev.dwaar.ai/mcp` as a remote (Streamable HTTP, OAuth) MCP server in its settings |
+| Claude Code | `claude plugin marketplace add DwaarAI/dwaar-agent` then `claude plugin install dwaar@dwaar` | `claude mcp add --transport http dwaar https://console.stg.dwaar.ai/mcp` |
+| Codex | `codex plugin marketplace add DwaarAI/dwaar-agent` then `codex plugin add dwaar@dwaar` (or `/plugins`) | `codex mcp add dwaar --url https://console.stg.dwaar.ai/mcp` |
+| Cursor | A team admin imports `https://github.com/DwaarAI/dwaar-agent` (Dashboard › Plugins & MCPs › Add Marketplace › Import from Repo) | Add `{"mcpServers":{"dwaar":{"url":"https://console.stg.dwaar.ai/mcp"}}}` to `~/.cursor/mcp.json` |
+| VS Code (Copilot) | Command Palette › **Chat: Install Plugin from Source** › `https://github.com/DwaarAI/dwaar-agent` (needs `chat.plugins.enabled`) | `code --add-mcp '{"name":"dwaar","type":"http","url":"https://console.stg.dwaar.ai/mcp"}'` |
+| Antigravity | `agy plugin install https://github.com/DwaarAI/dwaar-agent` | Add `"dwaar": {"serverUrl": "https://console.stg.dwaar.ai/mcp"}` under `mcpServers` in `~/.gemini/config/mcp_config.json` |
+| Gemini CLI | `gemini extensions install https://github.com/DwaarAI/dwaar-agent` | `gemini mcp add --transport http -s user dwaar https://console.stg.dwaar.ai/mcp` |
+| OpenCode | `npx skills add DwaarAI/dwaar-agent` (skills only) | `opencode mcp add dwaar --url https://console.stg.dwaar.ai/mcp` |
+| Anything else | `npx skills add DwaarAI/dwaar-agent` (skills only) | Add `https://console.stg.dwaar.ai/mcp` as a remote (Streamable HTTP, OAuth) MCP server in its settings |
 
 Most agents load a new MCP server only in a new session. Tell the user to restart or reload the agent, then continue
 with step 3.
@@ -51,8 +63,8 @@ with step 3.
 If the agent cannot open a browser (CI, `claude -p`, a remote shell without one), sign-in cannot work. Use an API key
 instead: the user creates one in `<console>` › Settings › API (preset **Read only (MCP)**) and adds the server with the
 header `Authorization: Bearer dwc_…` themselves, for example
-`claude mcp add --transport http dwaar https://console-dev.dwaar.ai/mcp --header "Authorization: Bearer dwc_…"` or
-`codex mcp add dwaar --url https://console-dev.dwaar.ai/mcp --bearer-token-env-var DWAAR_API_KEY`. Do not ask them to paste
+`claude mcp add --transport http dwaar https://console.stg.dwaar.ai/mcp --header "Authorization: Bearer dwc_…"` or
+`codex mcp add dwaar --url https://console.stg.dwaar.ai/mcp --bearer-token-env-var DWAAR_API_KEY`. Do not ask them to paste
 the key into chat.
 
 ## 3. Sign in
@@ -61,7 +73,8 @@ Sign-in starts on the first Dwaar tool call, or with the agent's login command:
 
 | Agent | Sign in |
 | --- | --- |
-| Claude Code | `/mcp` › dwaar › Authenticate, or `claude mcp login dwaar` |
+| Claude Code, plugin install | `/mcp` › plugin:dwaar:dwaar › Authenticate, or `claude mcp login plugin:dwaar:dwaar` |
+| Claude Code, MCP-only install | `/mcp` › dwaar › Authenticate, or `claude mcp login dwaar` |
 | Codex | `codex mcp login dwaar` |
 | Cursor | Prompted when the server connects; its MCP settings show the server's sign-in state |
 | VS Code | Prompted on the first tool call |
@@ -69,8 +82,9 @@ Sign-in starts on the first Dwaar tool call, or with the agent's login command:
 | Gemini CLI | `/mcp auth dwaar` |
 | OpenCode | `opencode mcp auth dwaar` |
 
-Over SSH without a local browser, `claude mcp login dwaar --no-browser` and `codex mcp login dwaar --no-browser` print a
-URL to open elsewhere; the user pastes back the address they land on.
+Over SSH without a local browser, `claude mcp login plugin:dwaar:dwaar --no-browser` (plugin install),
+`claude mcp login dwaar --no-browser` (MCP-only install) and `codex mcp login dwaar --no-browser` print a URL to open
+elsewhere; the user pastes back the address they land on.
 
 Before the browser opens, tell the user what each stop is for:
 

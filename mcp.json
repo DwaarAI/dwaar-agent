@@ -1,6 +1,6 @@
 {
   "$schema": "https://agent-plugins.org/schemas/1.0.0/mcp.schema.json",
   "mcpServers": {
-    "dwaar": { "type": "streamable-http", "url": "https://console-dev.dwaar.ai/mcp" }
+    "dwaar": { "type": "streamable-http", "url": "https://console.stg.dwaar.ai/mcp" }
   }
 }

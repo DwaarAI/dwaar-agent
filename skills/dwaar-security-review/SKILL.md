@@ -16,8 +16,9 @@ Rules for the whole review:
 - Waivers, false positives and severity overrides are not tools: send the user to the finding's console page for those.
 
 `<console>` is the console origin the dwaar server names in its instructions ("The console is …"). Without them, it is
-the dwaar MCP server's URL without `/mcp`. If the Dwaar tools are missing or answer 401, use the `dwaar-connect` skill
-first.
+`https://console.stg.dwaar.ai` on the shared server; on a dedicated tenant, ask the user for their console address.
+Never derive it from the MCP server's URL: the two can be on different domains. If the Dwaar tools are missing or
+answer 401, use the `dwaar-connect` skill first.
 
 ## 1. Find this repository in Dwaar
 
